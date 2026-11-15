@@ -15,7 +15,11 @@ jobs:
         with:
           gradle-version: 8.7
       - run: gradle assembleDebug
+      - run: find . /tmp -name "*.apk" 2>/dev/null
       - uses: actions/upload-artifact@v4
         with:
           name: ChessBubble-apk
-          path: build/outputs/apk/debug/app-debug.apk
+          path: |
+            build/outputs/apk/debug/*.apk
+            /tmp/chessbuild/outputs/apk/debug/*.apk
+          if-no-files-found: error

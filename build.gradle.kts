@@ -3,7 +3,6 @@ plugins {
     id("org.jetbrains.kotlin.android") version "1.9.24"
 }
 
-layout.buildDirectory.set(file("/tmp/chessbuild"))
 
 val copyKt = tasks.register<Copy>("copyKt") {
     from(projectDir) { include("*.kt") }

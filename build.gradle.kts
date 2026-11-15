@@ -5,6 +5,15 @@ plugins {
 
 layout.buildDirectory.set(file("/tmp/chessbuild"))
 
+val copyKt = tasks.register<Copy>("copyKt") {
+    from(projectDir) { include("*.kt") }
+    into("/tmp/chesssrc")
+}
+
+tasks.matching { it.name.startsWith("compile") }.configureEach {
+    dependsOn(copyKt)
+}
+
 android {
     namespace = "com.example.chessbubble"
     compileSdk = 34
@@ -18,7 +27,7 @@ android {
     sourceSets {
         getByName("main") {
             manifest.srcFile("AndroidManifest.xml")
-            java.setSrcDirs(listOf("."))
+            java.setSrcDirs(listOf("/tmp/chesssrc"))
         }
     }
     compileOptions {

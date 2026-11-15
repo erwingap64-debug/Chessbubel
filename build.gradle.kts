@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.util.PatternFilterable
+
 plugins {
     id("com.android.application") version "8.5.2"
     id("org.jetbrains.kotlin.android") version "1.9.24"
@@ -24,4 +26,10 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions { jvmTarget = "17" }
+}
+
+tasks.configureEach {
+    if (name.startsWith("compile") && (name.endsWith("Kotlin") || name.endsWith("JavaWithJavac"))) {
+        (this as? PatternFilterable)?.exclude("build/**", ".gradle/**", ".github/**")
+    }
 }
